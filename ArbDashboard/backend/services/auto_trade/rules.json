@@ -1,0 +1,40 @@
+[
+    {
+        "name": "411 华宝油气",
+        "target": "162411",
+        "type": "code",
+        "indicator": "discount",
+        "threshold": -1.22,
+        "action": "BUY",
+        "max_pos_wan": 50,
+        "order_vol": 34000,
+        "id": "a922fac2-44a7-4fd9-9925-9724a68c14b3",
+        "enabled": true
+    },
+    {
+        "name": "513黄金GLD",
+        "target": "165513",
+        "type": "code",
+        "indicator": "discount",
+        "threshold": 0.7,
+        "action": "BUY",
+        "max_pos_wan": 50,
+        "order_vol": 4000,
+        "capital_limit_wan": 10,
+        "id": "fb9ec103-91f0-416d-9372-c29f6b6577c6",
+        "enabled": true
+    },
+    {
+        "name": "824印度INDA",
+        "target": "164824",
+        "type": "code",
+        "indicator": "premium",
+        "threshold": -0.3,
+        "action": "SELL",
+        "max_pos_wan": 50,
+        "order_vol": 2000,
+        "capital_limit_wan": 10,
+        "id": "d9b3cabd-f64d-4cb1-b8bf-a840dc002d79",
+        "enabled": false
+    }
+]

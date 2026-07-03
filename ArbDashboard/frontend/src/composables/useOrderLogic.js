@@ -106,5 +106,44 @@ export function useOrderLogic() {
     })
   }
 
-  return { sendLofOrder, sendIbOrder }
+  // ========== 直接 IB 下单函数（实时沙盘专用，不走 LazyTrader） ==========
+  const sendDirectIbOrder = async (action, symbol, price, quantity) => {
+    if (!symbol || !quantity || !price) {
+      message.warning('请输入标的、价格和数量')
+      return
+    }
+    const actionName = action === 'BUY' ? '买入' : '卖出'
+    dialog.warning({
+      title: '确认下单',
+      content: `您将向 [IB (盈透证券)] 发起实盘委托，请确认参数：\n\n` +
+        `・ 标的代码: ${symbol}\n` +
+        `・ 委托方向: ${actionName}\n` +
+        `・ 委托价格: $${price.toFixed(2)}\n` +
+        `・ 委托数量: ${quantity}`,
+      positiveText: '确认发送',
+      negativeText: '取消',
+      onPositiveClick: async () => {
+        message.loading('正在发送委托指令，请稍候...')
+        try {
+          const { default: client } = await import('../api/client')
+          const res = await client.post('/api/trading/ib_order', {
+            action, symbol, quantity, price,
+          })
+          if (res.data.status === 'ok') {
+            message.success(`IB下单成功: ${res.data.message}`)
+          } else {
+            message.error(`IB下单失败: ${res.data.message}`)
+            dialog.error({
+              title: 'IB下单失败',
+              content: `IB接口返回错误: ${res.data.message}`,
+            })
+          }
+        } catch (e) {
+          message.error(`接口调用异常: ${e.message || e}`)
+        }
+      },
+    })
+  }
+
+  return { sendLofOrder, sendIbOrder, sendDirectIbOrder }
 }
